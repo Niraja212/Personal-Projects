@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Calendar</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    text-align:center;
+}
+
+#box{
+    height:auto;
+    width:350px;
+    border:2px solid black;
+    background: linear-gradient(to top right,rgb(15, 155, 214), rgb(246, 103, 234));
+    margin:auto;
+    padding:15px;
+    justify-content:center;
+}
+
+button{
+    padding:5px 10px;
+   // margin:5px;
+}
+
+#calendar{
+    display:grid;
+    grid-template-columns:repeat(7,40px);
+    justify-content:center;
+    gap:5px;
+    margin-top:10px;
+}
+
+.day{
+    border:1px solid black;
+    padding:8px;
+}
+
+.today{
+    background:lightblue;
+}
+
+</style>
+
+</head>
+<body>
+
+<div id="box">
+
+<h2 id="month"></h2>
+
+<button onclick="prevMonth()">Previous</button>
+<button onclick="nextMonth()">Next</button>
+
+<div id="calendar"></div>
+
+<script>
+
+let date = new Date();
+
+function showCalendar(){
+
+    let year = date.getFullYear();
+    let month = date.getMonth();
+
+    let firstDay = new Date(year,month,1).getDay();
+    let lastDate = new Date(year,month+1,0).getDate();
+
+    let monthNames=[
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+    ];
+
+    document.getElementById("month").innerText = monthNames[month] + " " + year;
+
+    let calendar = document.getElementById("calendar");
+    calendar.innerHTML="";
+
+    for(let i=0;i<firstDay;i++){
+        calendar.innerHTML += "<div></div>";
+    }
+
+    for(let i=1;i<=lastDate;i++){
+
+        let today = new Date();
+
+        if(i===today.getDate() && month===today.getMonth() && year===today.getFullYear()){
+            calendar.innerHTML += "<div class='day today'>"+i+"</div>";
+        }
+        else{
+            calendar.innerHTML += "<div class='day'>"+i+"</div>";
+        }
+
+    }
+
+}
+
+function prevMonth(){
+    date.setMonth(date.getMonth()-1);
+    showCalendar();
+}
+
+function nextMonth(){
+    date.setMonth(date.getMonth()+1);
+    showCalendar();
+}
+
+showCalendar();
+
+</script>
+</div>
+
+</body>
+</html>
